@@ -1,5 +1,6 @@
+uv sync
 
 source .venv/bin/activate
 
-uv sync
+
 

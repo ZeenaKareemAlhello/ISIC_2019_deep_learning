@@ -12,7 +12,8 @@ The goal is to classify images into 7 skin lesion categories:
 - Vascular Lesion
 
 ---
-dataset:
+# Dataset:
+
 you can download the dataset from here https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_Input.zip , and to get the subset please contact me on this
 email: zena.alhello@gmail.com will send 1G subset of data
 
