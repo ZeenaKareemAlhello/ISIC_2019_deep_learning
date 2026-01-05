@@ -1,0 +1,26 @@
+[project]
+name = "face-mask-detection"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "black>=25.9.0",
+    "ipython>=9.6.0",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.8",
+    "numpy>=2.3.4",
+    "pandas>=2.3.3",
+    "scikit-learn>=1.8.0",
+    "tensorflow>=2.20.0",
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+    "torchvision==0.23.0",
+    "tqdm>=4.67.1",
+]
+
+
+[dependency-groups]
+dev = [
+    "black[jupyter]>=25.9.0",
+]
