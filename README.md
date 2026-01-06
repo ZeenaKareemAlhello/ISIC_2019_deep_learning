@@ -79,7 +79,7 @@ torchvision
 
 ## Running the predict with fastapi
 
-uvicorn src.api.main:app --reload
+uvicorn src.api.predict:app --reload
 
 cURL test:
 curl -X POST "http://127.0.0.1:8000/predict" \

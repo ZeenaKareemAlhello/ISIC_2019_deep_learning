@@ -4,13 +4,18 @@ from torchvision import transforms
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
 import io
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(ROOT))
 
 from src.modules.model import DenseNetClassifier
 
 # --------------------
 # CONFIG
 # --------------------
-MODEL_PATH = "densenet_isic.pth"
+MODEL_PATH = "src/scripts/densenet_isic.pth"
 IMG_SIZE = 224
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -46,14 +51,17 @@ model.eval()
 # --------------------
 # TRANSFORM
 # --------------------
-transform = transforms.Compose([
-    transforms.Resize((IMG_SIZE, IMG_SIZE)),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225],
-    ),
-])
+transform = transforms.Compose(
+    [
+        transforms.Resize((IMG_SIZE, IMG_SIZE)),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225],
+        ),
+    ]
+)
+
 
 # --------------------
 # HEALTH CHECK
@@ -61,6 +69,7 @@ transform = transforms.Compose([
 @app.get("/")
 def health_check():
     return {"status": "ok", "device": DEVICE}
+
 
 # --------------------
 # PREDICTION ENDPOINT
