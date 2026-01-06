@@ -1,6 +1,3 @@
-
-# trainer.py
-import torch
 from tqdm import tqdm
 
 
@@ -28,22 +25,5 @@ class Trainer:
             total_loss += loss.item()
             correct += (outputs.argmax(1) == labels).sum().item()
             total += labels.size(0)
-
-        return total_loss / len(loader), correct / total
-
-    def validate(self, loader):
-        self.model.eval()
-        total_loss, correct, total = 0, 0, 0
-
-        with torch.no_grad():
-            for images, labels in tqdm(loader, desc="Validation"):
-                images, labels = images.to(self.device), labels.to(self.device)
-
-                outputs = self.model(images)
-                loss = self.criterion(outputs, labels)
-
-                total_loss += loss.item()
-                correct += (outputs.argmax(1) == labels).sum().item()
-                total += labels.size(0)
 
         return total_loss / len(loader), correct / total

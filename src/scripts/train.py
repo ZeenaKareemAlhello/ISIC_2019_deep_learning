@@ -2,7 +2,6 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from torch import nn, optim
-
 import sys
 from pathlib import Path
 
@@ -13,6 +12,7 @@ sys.path.append(str(ROOT))
 from src.modules.trainer import Trainer
 from src.modules.dataset import ISICDataset
 from src.modules.model import DenseNetClassifier
+
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -28,8 +28,8 @@ def main():
     )
 
     train_dataset = ISICDataset(
-        csv_file="../data/slice/ISIC_SUBSET_5000/train.csv",
-        image_dir="../data/slice/ISIC_SUBSET_5000/images",
+        csv_file="data/slice/ISIC_SUBSET/train.csv",
+        image_dir="data/slice/ISIC_SUBSET/images",
         transform=transform,
     )
 
@@ -38,11 +38,16 @@ def main():
     model = DenseNetClassifier(num_classes=7).to(device)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
+    optimizer = torch.optim.AdamW(
+        [
+            {"params": model.model.features.parameters(), "lr": 1e-4},
+            {"params": model.model.classifier.parameters(), "lr": 1e-3},
+        ]
+    )
     trainer = Trainer(model, device, optimizer, criterion)
 
-    epochs = 1
+    epochs = 5
     best_loss = float("inf")
     for epoch in range(epochs):
         train_loss, train_acc = trainer.train_one_epoch(train_loader)
@@ -62,7 +67,8 @@ def main():
                     "freeze_backbone": True,
                     "state_dict": model.state_dict(),
                 },
-                "densenet_isic.pth",
+                # f"densenet_isic_{epoch:02d}_{train_acc:.4f}.pth",
+                "src/scripts/densenet_isic.pth",
             )
 
 
