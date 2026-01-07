@@ -86,3 +86,9 @@ curl -X POST "http://127.0.0.1:8000/predict" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@ISIC_0024306.jpg"
 
+# Running the predict with Docker
+docker build -t isic_2019 .
+docker run -it --rm -p 9696:9696 isic_2019
+
+open bash in the image container:
+docker run -it isic_2019 bash
