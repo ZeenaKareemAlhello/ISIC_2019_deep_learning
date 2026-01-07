@@ -6,11 +6,11 @@ from PIL import Image
 import io
 from pathlib import Path
 import sys
+from src.modules.model import DenseNetClassifier
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path.cwd()
 sys.path.append(str(ROOT))
 
-from src.modules.model import DenseNetClassifier
 
 # --------------------
 # CONFIG
